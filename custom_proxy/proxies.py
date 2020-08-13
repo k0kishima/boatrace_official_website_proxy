@@ -4,19 +4,26 @@ from flask import request
 import importlib
 import urllib.request
 import os
+import logging
+from custom_proxy.versions import Version, LATEST_VERSION
 
-@app.route('/<version>/<page_type>', methods=['GET'])
-def official_web_site_proxy(version, page_type):
-  cache_file = _CacheFile(version=version, page_type=page_type, args=request.args)
-  if (request.headers.get("Cache-Control") == 'no-cache') or (cache_file.content() is None):
+@app.route('/<page_type>', methods=['GET'])
+def official_web_site_proxy(page_type):
+  try:
+    version = Version(request.args.get('version', default=LATEST_VERSION, type=int))
+  except ValueError:
+    return "version is invalid.", 400
+
+  cache_file = _CacheFile(version=int(version), page_type=page_type, args=request.args)
+  if (request.headers.get('Cache-Control') == 'no-cache') or (cache_file.content() is None):
     # FIXME request.args で渡してるけど新しいパラメーター増やした瞬間バグる
     # 結合度的に言えばスタンプ結合的なやつ？
     url_object = UrlFactory(version=version, page_type=_get_page_type_enum(page_type), args=request.args).create()
-    urllib.request.urlretrieve(str(url_object), cache_file._path())
+    urllib.request.urlretrieve(str(url_object), cache_file.path())
   return cache_file.content()
 
 def _get_page_type_enum(page_type):
-  module = importlib.import_module("custom_proxy.page_types")
+  module = importlib.import_module('custom_proxy.page_types')
   return getattr(module.PageType, page_type.upper())
 
 class _CacheFile:
@@ -27,13 +34,13 @@ class _CacheFile:
     os.makedirs(self._dir(), exist_ok=True)
 
   def content(self):
-    if os.path.isfile(self._path()):
-      with open(self._path()) as f:
+    if os.path.isfile(self.path()):
+      with open(self.path()) as f:
         return f.read()
     else:
       return None
 
-  def _path(self):
+  def path(self):
     return '/'.join([self._dir(), self._signature()])
 
   def _signature(self):
