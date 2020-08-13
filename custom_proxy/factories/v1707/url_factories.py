@@ -17,7 +17,7 @@ class RacerProfilePageUrl(_PageUrl):
   def _query_string(self):
     return { 'toban': self._registration_number }
 
-class StadiumEventSchedulePageUrl:
+class EventSchedulePageUrl:
   def __init__(self, date=None, year=None, month=None):
     if date is not None:
       self._to_be_delegate = _DailySchedulePageUrl(date)
@@ -84,6 +84,6 @@ class RaceResultPageUrl(_RacePage):
   def _path(self):
     return "/owpc/pc/race/raceresult"
 
-class RaceExhibitionPageUrl(_RacePage):
+class RaceExhibitionInformationPageUrl(_RacePage):
   def _path(self):
     return "/owpc/pc/race/beforeinfo"

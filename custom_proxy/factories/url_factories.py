@@ -13,8 +13,8 @@ class UrlFactory:
   def _get_class_name(self):
     if self._page_type is PageType.RACER_PROFILE_PAGE:
       return 'RacerProfilePageUrl'
-    elif self._page_type is PageType.STADIUM_EVENT_SCHEDULE_PAGE:
-      return 'StadiumEventSchedulePageUrl'
+    elif self._page_type is PageType.EVENT_SCHEDULE_PAGE:
+      return 'EventSchedulePageUrl'
     elif self._page_type is PageType.EVENT_ENTRIES_PAGE:
       return 'EventEntriesPageUrl'
     elif self._page_type is PageType.RACE_INFORMATION_PAGE:
@@ -22,7 +22,7 @@ class UrlFactory:
     elif self._page_type is PageType.RACE_RESULT_PAGE:
       return 'RaceResultPageUrl'
     elif self._page_type is PageType.RACE_EXHIBITION_INFORMATION_PAGE:
-      return 'RaceExhibitionPageUrl'
+      return 'RaceExhibitionInformationPageUrl'
     elif self._page_type is PageType.RACE_ODDS_PAGE:
       raise NotImplemented
     else:
