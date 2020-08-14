@@ -1,8 +1,9 @@
 import os
 import dataclasses
-from datetime import date
-from custom_proxy.versions import Version
 from custom_proxy.formatters import format_stadium_tel_code
+from custom_proxy.page_types import PageType
+from custom_proxy.versions import Version
+from datetime import date
 
 class _CacheFile:
   def content(self):
@@ -120,3 +121,30 @@ class RaceResultFile(_RaceFile):
 class RaceOddsFile(_RaceFile):
   def _page_type_dir(self):
     return 'odds'
+
+class FileFactory():
+  def __init__(self, version, page_type, args):
+    self._version = version
+    self._page_type = page_type
+    self._args = args
+
+  def create(self):
+    return self._get_file_class()(version=self._version, **self._args)
+
+  def _get_file_class(self):
+    if self._page_type is PageType.RACER_PROFILE_PAGE:
+      return RacerProfileFile
+    elif self._page_type is PageType.EVENT_SCHEDULE_PAGE:
+      return MonthlyEventScheduleFile
+    elif self._page_type is PageType.EVENT_ENTRIES_PAGE:
+      return EventEntryFile
+    elif self._page_type is PageType.RACE_INFORMATION_PAGE:
+      return RaceInformationFile
+    elif self._page_type is PageType.RACE_RESULT_PAGE:
+      return RaceResultFile
+    elif self._page_type is PageType.RACE_EXHIBITION_INFORMATION_PAGE:
+      return RaceExhibitionInformationFile
+    elif self._page_type is PageType.RACE_ODDS_PAGE:
+      raise NotImplemented
+    else:
+      raise ValueError("unknown page type specified")
