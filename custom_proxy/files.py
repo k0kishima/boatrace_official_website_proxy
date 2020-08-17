@@ -3,7 +3,7 @@ import dataclasses
 from custom_proxy.formatters import format_stadium_tel_code
 from custom_proxy.page_types import PageType
 from custom_proxy.versions import Version
-from datetime import date
+import datetime
 
 class _CacheFile:
   def content(self):
@@ -49,7 +49,7 @@ class RacerProfileFile(_CacheFile):
   registration_number: int
 
   def _year(self):
-    return date.today().year
+    return datetime.date.today().year
 
   def _peculiar_dir(self):
     return "racer_profiles"
@@ -75,11 +75,12 @@ class MonthlyEventScheduleFile(_CacheFile):
 @dataclasses.dataclass
 class EventEntryFile(_CacheFile):
   version: Version
-  event_starts_on: date
+  event_starts_on: str  # Hack: 日付型なのか文字列なのか紛らわしいので日付型の文字列であることを明示する名前にするかバリデーション処理入れるかした方がいいかも
   stadium_tel_code: int
 
   def _year(self):
-    return self.event_starts_on.year
+    tdatetime = datetime.datetime.strptime(self.event_starts_on, '%Y-%m-%d')
+    return tdatetime.year
 
   def _peculiar_dir(self):
     return "event_entries/{}".format(self.event_starts_on)
@@ -90,12 +91,13 @@ class EventEntryFile(_CacheFile):
 @dataclasses.dataclass
 class _RaceFile(_CacheFile):
   version: Version
-  race_opened_on: date
+  race_opened_on: str
   stadium_tel_code: int
   race_number: int
 
   def _year(self):
-    return self.race_opened_on.year
+    tdatetime = datetime.datetime.strptime(self.race_opened_on, '%Y-%m-%d')
+    return tdatetime.year
 
   def _peculiar_dir(self):
     return "races/{}/{}/{}#".format(self._page_type_dir(), self.race_opened_on, format_stadium_tel_code(self.stadium_tel_code))
