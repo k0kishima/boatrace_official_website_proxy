@@ -7,14 +7,14 @@ def test_to_create_race_profile_page_url():
   factory = UrlFactory(version=Version.V1707, page_type=PageType.RACER_PROFILE_PAGE, args=args)
   assert str(factory.create()) == "https://boatrace.jp/owpc/pc/data/racersearch/profile?toban=4444"
 
-def test_to_create_monthly_schedule_page_url():
+def test_to_create_event_schedule_page_url():
   args = { 'year': 2020, 'month': 3 }
   factory = UrlFactory(version=Version.V1707, page_type=PageType.EVENT_SCHEDULE_PAGE, args=args)
   assert str(factory.create()) == "https://boatrace.jp/owpc/pc/race/monthlyschedule?ym=202003"
 
-def test_to_create_daily_schedule_page_url():
+def test_to_create_event_holdings_page_url():
   args = { 'date': '2020-03-20' }
-  factory = UrlFactory(version=Version.V1707, page_type=PageType.EVENT_SCHEDULE_PAGE, args=args)
+  factory = UrlFactory(version=Version.V1707, page_type=PageType.EVENT_HOLDINGS_PAGE, args=args)
   assert str(factory.create()) == "https://boatrace.jp/owpc/pc/race/index?hd=20200320"
 
 def test_to_create_event_entries_page_url():

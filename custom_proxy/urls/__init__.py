@@ -15,6 +15,8 @@ class UrlFactory:
       return 'RacerProfilePageUrl'
     elif self._page_type is PageType.EVENT_SCHEDULE_PAGE:
       return 'EventSchedulePageUrl'
+    elif self._page_type is PageType.EVENT_HOLDINGS_PAGE:
+      return 'EventHoldingsPageUrl'
     elif self._page_type is PageType.EVENT_ENTRIES_PAGE:
       return 'EventEntriesPageUrl'
     elif self._page_type is PageType.RACE_INFORMATION_PAGE:

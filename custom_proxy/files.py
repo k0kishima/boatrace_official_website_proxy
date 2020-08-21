@@ -58,7 +58,7 @@ class RacerProfileFile(_CacheFile):
     return "{}.html".format(self.registration_number)
 
 @dataclasses.dataclass
-class MonthlyEventScheduleFile(_CacheFile):
+class EventScheduleFile(_CacheFile):
   version: Version
   year: int
   month: int
@@ -71,6 +71,21 @@ class MonthlyEventScheduleFile(_CacheFile):
 
   def _file_name(self):
     return "{}.html".format(self.month)
+
+@dataclasses.dataclass
+class EventHoldingFile(_CacheFile):
+  version: Version
+  date: str
+
+  def _year(self):
+    tdatetime = datetime.datetime.strptime(self.date, '%Y-%m-%d')
+    return tdatetime.year
+
+  def _peculiar_dir(self):
+    return 'event_holdings/daily'
+
+  def _file_name(self):
+    return "{}.html".format(self.date)
 
 @dataclasses.dataclass
 class EventEntryFile(_CacheFile):
@@ -137,7 +152,9 @@ class FileFactory():
     if self._page_type is PageType.RACER_PROFILE_PAGE:
       return RacerProfileFile
     elif self._page_type is PageType.EVENT_SCHEDULE_PAGE:
-      return MonthlyEventScheduleFile
+      return EventScheduleFile
+    elif self._page_type is PageType.EVENT_HOLDINGS_PAGE:
+      return EventHoldingFile
     elif self._page_type is PageType.EVENT_ENTRIES_PAGE:
       return EventEntryFile
     elif self._page_type is PageType.RACE_INFORMATION_PAGE:

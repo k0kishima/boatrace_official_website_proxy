@@ -18,17 +18,7 @@ class RacerProfilePageUrl(_PageUrl):
   def _query_string(self):
     return { 'toban': self._registration_number }
 
-class EventSchedulePageUrl:
-  def __init__(self, date=None, year=None, month=None):
-    if date is not None:
-      self._to_be_delegate = _DailySchedulePageUrl(date)
-    elif (year is not None) and (month is not None):
-      self._to_be_delegate = _MonthlySchedulePageUrl(year=year, month=month)
-
-  def __str__(self):
-    return str(self._to_be_delegate)
-
-class _MonthlySchedulePageUrl(_PageUrl):
+class EventSchedulePageUrl(_PageUrl):
   def __init__(self, year, month):
     self._year = year
     self._month = month
@@ -39,7 +29,7 @@ class _MonthlySchedulePageUrl(_PageUrl):
   def _query_string(self):
     return { 'ym': "{}{}".format(self._year, format_day(self._month)) }
 
-class _DailySchedulePageUrl(_PageUrl):
+class EventHoldingsPageUrl(_PageUrl):
   def __init__(self, date):
     self._date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
 
