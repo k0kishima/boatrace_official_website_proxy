@@ -78,3 +78,7 @@ class RaceResultPageUrl(_RacePage):
 class RaceExhibitionInformationPageUrl(_RacePage):
   def _path(self):
     return "/owpc/pc/race/beforeinfo"
+
+class RaceOddsPageUrl(_RacePage):
+  def _path(self):
+    return "/owpc/pc/race/odds3t"

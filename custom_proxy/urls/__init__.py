@@ -26,6 +26,6 @@ class UrlFactory:
     elif self._page_type is PageType.RACE_EXHIBITION_INFORMATION_PAGE:
       return 'RaceExhibitionInformationPageUrl'
     elif self._page_type is PageType.RACE_ODDS_PAGE:
-      raise NotImplemented
+      return 'RaceOddsPageUrl'
     else:
       raise ValueError("unknown page type specified")

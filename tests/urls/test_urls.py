@@ -44,3 +44,10 @@ def test_to_create_race_exhibition_page_url():
   factory = UrlFactory(version=Version.V1707, page_type=PageType.RACE_EXHIBITION_INFORMATION_PAGE, args=args)
   assert str(factory.create()) == "https://boatrace.jp/owpc/pc/race/beforeinfo?rno=6&jcd=04&hd=20200320"
 
+def test_to_create_race_odds_page_url():
+  stadium_tel_code = 4
+  race_number = 6
+  args = { 'stadium_tel_code': stadium_tel_code, 'race_opened_on': '2020-03-20', 'race_number': race_number }
+  factory = UrlFactory(version=Version.V1707, page_type=PageType.RACE_ODDS_PAGE, args=args)
+  assert str(factory.create()) == "https://boatrace.jp/owpc/pc/race/odds3t?rno=6&jcd=04&hd=20200320"
+
