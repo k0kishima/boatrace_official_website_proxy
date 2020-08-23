@@ -3,7 +3,7 @@ from custom_proxy.page_types import PageType
 
 class UrlFactory:
   def __init__(self, version, page_type, args):
-    self._module = importlib.import_module("custom_proxy.factories.v{}.url_factories".format(version))
+    self._module = importlib.import_module("custom_proxy.urls.v{}".format(int(version)))
     self._page_type = page_type
     self._args = args
 
@@ -13,8 +13,10 @@ class UrlFactory:
   def _get_class_name(self):
     if self._page_type is PageType.RACER_PROFILE_PAGE:
       return 'RacerProfilePageUrl'
-    elif self._page_type is PageType.STADIUM_EVENT_SCHEDULE_PAGE:
-      return 'StadiumEventSchedulePageUrl'
+    elif self._page_type is PageType.EVENT_SCHEDULE_PAGE:
+      return 'EventSchedulePageUrl'
+    elif self._page_type is PageType.EVENT_HOLDINGS_PAGE:
+      return 'EventHoldingsPageUrl'
     elif self._page_type is PageType.EVENT_ENTRIES_PAGE:
       return 'EventEntriesPageUrl'
     elif self._page_type is PageType.RACE_INFORMATION_PAGE:
@@ -22,8 +24,8 @@ class UrlFactory:
     elif self._page_type is PageType.RACE_RESULT_PAGE:
       return 'RaceResultPageUrl'
     elif self._page_type is PageType.RACE_EXHIBITION_INFORMATION_PAGE:
-      return 'RaceExhibitionPageUrl'
+      return 'RaceExhibitionInformationPageUrl'
     elif self._page_type is PageType.RACE_ODDS_PAGE:
-      raise NotImplemented
+      return 'RaceOddsPageUrl'
     else:
       raise ValueError("unknown page type specified")
