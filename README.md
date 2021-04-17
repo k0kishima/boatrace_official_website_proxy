@@ -38,3 +38,13 @@ http://localhost:5000/file?month=8&page_type=event_schedule_page&version=1707&ye
 クライアントは、公式サイトのバージョンが変わったらパラメータのversionの値だけ変えればいい。
 <br>
 (実際はこのパラメータは省略すると最新のバージョンが既定値として適用されるのでコンテキストによってはそれも気にしなくていい)
+
+## 使用例
+
+### dockerによるコンテナの実行
+
+プロジェクトのルート（ここを基準にボリュームをマウントするため）で以下を実行
+
+```
+$ docker run -it -v $PWD:/webapp -w /webapp --env PYTHONPATH="/webapp:$PYTHONPATH" -p 55000:5000 --network=default python:3.8 bash -c "pip3 install -r requirements.txt && python3 server.py"
+```
