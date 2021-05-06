@@ -9,7 +9,7 @@ class _CacheFile:
   def content(self):
     os.makedirs(self._dir(), exist_ok=True)
     if os.path.isfile(self.path()):
-      with open(self.path()) as f:
+      with open(self.path(), encoding='utf8', errors='ignore') as f:
         return f.read()
     else:
       return None
