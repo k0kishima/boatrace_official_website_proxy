@@ -13,8 +13,9 @@ def file():
   args = _without_keys(request.args, {'version', 'page_type'})
   cache_file = FileFactory(version=version, page_type=page_type, args=args).create()
   # HACK: `cache_file.content() is None` を先に評価しないと `FileNotFoundError` が発生してしまうバギーなコード
-  # ディレクトリの生成自体は `cache_file.content() is None` でやってるから、`request.headers.get('Cache-Control') == 'no-cache'` を or で
-  # 先に評価して真になったらディレクトリの生成が行われずに前述したエラーとなる
+  # ディレクトリの生成自体は `cache_file.content() is None` でやってるから、
+  # `request.headers.get('Cache-Control') == 'no-cache'` を or で先に評価して真になったら
+  # `cache_file.content() is None`が実行されず（ディレクトリの生成が行われず）に前述したエラーとなる
   if (cache_file.content() is None) or (request.headers.get('Cache-Control') == 'no-cache'):
     url_object = UrlFactory(version=version, page_type=page_type, args=args).create()
     urllib.request.urlretrieve(str(url_object), cache_file.path())
